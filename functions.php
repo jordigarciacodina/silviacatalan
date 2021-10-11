@@ -231,37 +231,63 @@ function bs_logout_menu_link( $items, $args ) {
    return $items;
 }
 
-// Define is_child() function
-function is_child($pageID) {
-    global $post;
-    if (is_page() && $post->post_parent == $pageID) {
-        return true;
-    } else {
-        return false;
-    }
+// Register psicospacio menu
+add_action('init', 'bs_register_psicospacio_menu');
+function bs_register_psicospacio_menu() {
+    register_nav_menu('psicospacio-menu', __('Psicospacio menu'));
 }
 
-// Register intranet menu
-add_action('init', 'bs_register_intranet_menu');
-function bs_register_intranet_menu() {
-    register_nav_menu('intranet-menu', __('Intranet menu'));
-}
-
-// Hooking intranet menu ('ID of Intranet page')
-add_action('genesis_before_content', 'bs_hooking_intranet_menu');
-function bs_hooking_intranet_menu() {
-    if (is_page('92') || is_child('92')):// Modificar ID's ?>
-		<div class="entry-header"><h1 class="entry-title intranet-title"><?php echo the_title(); ?></h1></div>
+// Hooking psicospacio menu 
+add_action('genesis_before_entry_content', 'bs_hooking_psicospacio_menu', 5);
+function bs_hooking_psicospacio_menu() {
+    if (is_page(array('347','82','307'))): ?>
 		<?php wp_nav_menu(
 			array(
-      			'theme_location'  => 'intranet-menu',
+      			'theme_location'  => 'psicospacio-menu',
 				'menu_class' 	  => 'genesis-nav-menu'
   			)
 		);
-		remove_action('genesis_entry_header', 'genesis_do_post_title');
 	endif;
+} 
 
+// Register sexpacio menu
+add_action('init', 'bs_register_sexpacio_menu');
+function bs_register_sexpacio_menu() {
+    register_nav_menu('sexpacio-menu', __('Sexpacio menu'));
 }
+
+// Hooking sexpacio menu 
+add_action('genesis_before_entry_content', 'bs_hooking_sexspacio_menu', 5);
+function bs_hooking_sexspacio_menu() {
+    if (is_page(array('349','305','317'))): ?>
+		<?php wp_nav_menu(
+			array(
+      			'theme_location'  => 'sexpacio-menu',
+				'menu_class' 	  => 'genesis-nav-menu'
+  			)
+		);
+	endif;
+} 
+
+// Register blog menu
+add_action('init', 'bs_register_blog_menu');
+function bs_register_blog_menu() {
+    register_nav_menu('blog-menu', __('Blog menu'));
+}
+
+// Hooking blog menu 
+add_action('genesis_archive_title_descriptions', 'bs_hooking_blog_menu', 25);
+function bs_hooking_blog_menu() {
+    if (is_home() || is_category(14) || is_category(15)): ?>
+		<?php wp_nav_menu(
+			array(
+      			'theme_location'  => 'blog-menu',
+				'menu_class' 	  => 'genesis-nav-menu'
+  			)
+		);
+	endif;
+} 
+
 
 // Register social menu
 add_action('init', 'bs_register_social_menu');
@@ -280,12 +306,6 @@ function bs_hooking_social_menu() {
 			)
 		);
     endif;
-}
-
-// Register Filter menu
-add_action('init', 'bs_register_filter_menu');
-function bs_register_filter_menu() {
-    register_nav_menu('filter-menu', __('Filter menu'));
 }
 
 // Colocamos el nombre del field en placeholder
@@ -389,4 +409,11 @@ function bs_display_cta_section() {
 		</section> <?php
 	endif;
 
+}
+
+// Redireccionar los usuarios que están logueados de la home a la página que quieras
+add_action( 'template_redirect', 'bs_home_redirect' );
+function bs_home_redirect() {
+	if(is_user_logged_in() && is_front_page())
+		   wp_redirect('/comunidad');
 }

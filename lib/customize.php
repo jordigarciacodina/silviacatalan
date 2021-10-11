@@ -419,7 +419,7 @@ function genesis_starter_front_page_hero_customize_css(){
 		.hero:not(.banner-bottom) {
 			background-image: url(<?php echo $header_image; ?>);
 			background-position: <?php echo $background_position; ?>;
-			background-size: contain;
+			background-size: cover;
 			background-repeat: no-repeat;
 		}
 	}
