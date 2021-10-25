@@ -38,7 +38,7 @@ function bs_display_front_page_sections() { ?>
 			</div>
 		</div>
 	</section>
-	<section class="featureds">
+	<section id="como" class="featureds">
 		<div class="wrap">
 			<div class="row">
 				<div class="box">
