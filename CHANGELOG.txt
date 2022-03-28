@@ -1,4 +1,7 @@
 # Silvia Catalán Theme Changelog
 
-## [1.0.0] - XXXX-XX-XX
+## [1.0.1] 2022-3-28
+* Estilos del plugin wpForo
+
+## [1.0.0] 2022-3-28
 * Initial release!
